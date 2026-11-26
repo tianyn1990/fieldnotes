@@ -1,0 +1,41 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>开源研究 · Fieldnotes</title><meta name="description" content="项目拆解、实现对照与参考资料。"><meta name="theme-color" content="#f8f6ef"><script>
+      (() => {
+        const key = 'fieldnotes.theme';
+        const root = document.documentElement;
+        const system = window.matchMedia('(prefers-color-scheme: dark)');
+        const bar = document.querySelector('meta[name="theme-color"]');
+        let preference = 'system';
+        const validate = value => value === 'dark' || value === 'light' ? value : 'system';
+        function apply() {
+          root.dataset.theme = preference;
+          const dark = preference === 'dark' || (preference === 'system' && system.matches);
+          bar.content = dark ? '#21231f' : '#f8f6ef';
+          const select = document.getElementById('theme-choice');
+          if (select) select.value = preference;
+        }
+        function restore() {
+          try { preference = validate(localStorage.getItem(key)); } catch {}
+          apply();
+        }
+        restore();
+        document.addEventListener('DOMContentLoaded', apply, { once: true });
+        window.addEventListener('pageshow', event => { if (event.persisted) restore(); });
+        system.addEventListener('change', apply);
+        window.addEventListener('storage', event => {
+          if (event.key === key || event.key === null) restore();
+        });
+        document.addEventListener('keydown', event => {
+          if (event.target.id !== 'theme-choice' || !['Home', 'End'].includes(event.key)) return;
+          event.preventDefault();
+          const select = event.target;
+          select.selectedIndex = event.key === 'Home' ? 0 : select.length - 1;
+          select.dispatchEvent(new Event('change', { bubbles: true }));
+        });
+        document.addEventListener('change', event => {
+          if (event.target.id !== 'theme-choice') return;
+          preference = validate(event.target.value);
+          try { localStorage.setItem(key, preference); } catch {}
+          apply();
+        });
+      })();
+    </script><link rel="canonical" href="https://tianyn1990.github.io/fieldnotes/categories/research/"><meta property="og:title" content="开源研究 · Fieldnotes"><meta property="og:description" content="项目拆解、实现对照与参考资料。"><meta property="og:locale" content="zh_CN"><meta property="og:site_name" content="Fieldnotes"><meta property="og:type" content="website"><meta property="og:url" content="https://tianyn1990.github.io/fieldnotes/categories/research/"><meta property="og:image" content="https://tianyn1990.github.io/fieldnotes/share.png"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Fieldnotes，tianyn1990 的个人手记"><meta name="twitter:card" content="summary_large_image"><link rel="icon" type="image/svg+xml" href="/fieldnotes/favicon.svg"><link rel="stylesheet" href="/fieldnotes/_astro/Layout.pxIf299M.css"></head> <body><a class="skip" href="#main">跳到正文</a><header class="mast"> <div class="wrap mast-inner"> <a class="logo" href="/fieldnotes/"><svg width="25" height="25" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5l10 3.5L22 5v13l-10 3.5L2 18ZM12 8.5v13M5 2l7 2.5L19 2"></path></svg>Fieldnotes</a><nav aria-label="主导航"> <a href="/fieldnotes/#index">分类</a><a href="/fieldnotes/#topics">专题</a><a class="github" href="https://github.com/tianyn1990/fieldnotes" aria-label="Fieldnotes 的 GitHub 仓库">GitHub <svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19 19 5M6 5h13v13"></path></svg></a> <label class="theme-picker" title="外观主题"> <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"> <circle cx="12" cy="12" r="8"></circle> <path d="M12 4a8 8 0 0 1 0 16Z" fill="currentColor" stroke="none"></path> </svg> <select id="theme-choice" aria-label="外观主题"> <option value="system">跟随系统</option> <option value="light">浅色</option> <option value="dark">深色</option> </select> </label> </nav> </div> </header> <main class="wrap" id="main"> <div class="inner"> <nav class="crumb" aria-label="当前位置"> <a href="/fieldnotes/">首页</a> <span aria-hidden="true">/</span> <a href="/fieldnotes/#index">分类索引</a> </nav> <header class="archive-head"> <h1>开源研究</h1> <p>项目拆解、实现对照与参考资料。</p> </header> <p class="empty">这里还没有已发布的条目。</p> <a class="back" href="/fieldnotes/#index">← 返回分类索引</a> </div> </main> <footer class="wrap footer"> <a href="/fieldnotes/" class="footer-logo">Fieldnotes</a><a href="https://github.com/tianyn1990">@tianyn1990 <svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19 19 5M6 5h13v13"></path></svg></a> </footer></body></html>
